@@ -7,6 +7,7 @@ import {Alert, FlatList, Text, TouchableHighlight, View} from "react-native";
 import styles from "../Style";
 import {Netmera, NetmeraInboxFilter} from "react-native-netmera";
 import SelectDropdown from 'react-native-select-dropdown'
+import {NMInboxStatus, NMInboxStatusCountFilter} from "react-native-netmera/src/NetmeraInbox";
 
 const PushInbox = () => {
 
@@ -102,6 +103,26 @@ const PushInbox = () => {
         })
     }
 
+    // Returns inbox count by selected status.
+    const inboxCountForStatus = async () => {
+        try {
+            const filter = new NMInboxStatusCountFilter();
+            filter.nmInboxStatus = inboxState;
+            filter.includeExpired = true;
+            const nmInboxStatusCount = await Netmera.getInboxCountForStatus(filter);
+
+            let countStatusText = "ALL: " + nmInboxStatusCount[NMInboxStatus.STATUS_ALL] + ", " +
+                "READ: " + nmInboxStatusCount[NMInboxStatus.STATUS_READ] + ", " +
+                "UNREAD: " + nmInboxStatusCount[NMInboxStatus.STATUS_UNREAD] + ", " +
+                "DELETED: " + nmInboxStatusCount[NMInboxStatus.STATUS_DELETED]
+
+            setStatusCount(countStatusText)
+            console.log("nmInboxStatusCount: ", countStatusText);
+        } catch (e) {
+            console.log("error", e)
+        }
+    };
+
     const updateInboxState = (value) => {
         switch (value) {
             case "ALL":
@@ -196,6 +217,12 @@ const PushInbox = () => {
                     <TouchableHighlight style={[styles.button, styles.inboxButton]}
                                         onPress={() => inboxUpdateStatus()}>
                         <Text style={styles.buttonText}>Update Status (Unread 2 elem.)</Text>
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.rowItem}>
+                    <TouchableHighlight style={[styles.button, styles.inboxButton]}
+                                        onPress={() => inboxCountForStatus()}>
+                        <Text style={styles.buttonText}>Inbox Count For Status</Text>
                     </TouchableHighlight>
                 </View>
             </View>

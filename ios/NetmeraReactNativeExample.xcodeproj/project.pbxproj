@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NetmeraReactNativeExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NetmeraReactNativeExampleTests.m */; };
+		12648515E5DDC8A333B9B803 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 199996DA44838C3F8C82ED0F /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		64CDA2213DCD435B744E4208 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ABF9AFDAC0DCC4AA0ADAFB2 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a */; };
+		66D890532D08C1EAEE57E767 /* libPods-NetmeraReactNativeExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21FBD2402921055B21825AAB /* libPods-NetmeraReactNativeExample.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		C505F49B9BA46C4B2CE858C0 /* libPods-NetmeraReactNativeExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 129285F45F0572F048E754E9 /* libPods-NetmeraReactNativeExample.a */; };
 		C92A9C3B27E2409B0088BAFB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C92A9C3A27E2409B0088BAFB /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -31,22 +31,22 @@
 		00E356EE1AD99517003FC87E /* NetmeraReactNativeExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetmeraReactNativeExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* NetmeraReactNativeExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetmeraReactNativeExampleTests.m; sourceTree = "<group>"; };
-		129285F45F0572F048E754E9 /* libPods-NetmeraReactNativeExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetmeraReactNativeExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* NetmeraReactNativeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetmeraReactNativeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NetmeraReactNativeExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NetmeraReactNativeExample/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NetmeraReactNativeExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NetmeraReactNativeExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NetmeraReactNativeExample/main.m; sourceTree = "<group>"; };
-		46B7EEE131B9068601B09890 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		4ABF9AFDAC0DCC4AA0ADAFB2 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		80D956E45BE394CAE78782A1 /* Pods-NetmeraReactNativeExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample.release.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample/Pods-NetmeraReactNativeExample.release.xcconfig"; sourceTree = "<group>"; };
+		199996DA44838C3F8C82ED0F /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21FBD2402921055B21825AAB /* libPods-NetmeraReactNativeExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetmeraReactNativeExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22AE5A70EC6E1381FE74A215 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		28AA7557574FF692C5000CA3 /* Pods-NetmeraReactNativeExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample.debug.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample/Pods-NetmeraReactNativeExample.debug.xcconfig"; sourceTree = "<group>"; };
+		3BD7272BA4DB13471B106FBF /* Pods-NetmeraReactNativeExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample.release.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample/Pods-NetmeraReactNativeExample.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NetmeraReactNativeExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B56EFD65B0EBE74959785FA8 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C92A9C3A27E2409B0088BAFB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C92A9C3C27E241A80088BAFB /* NetmeraReactNativeExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NetmeraReactNativeExample.entitlements; path = NetmeraReactNativeExample/NetmeraReactNativeExample.entitlements; sourceTree = "<group>"; };
-		DFEDF4A4A1BBC60E74905BA2 /* Pods-NetmeraReactNativeExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample.debug.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample/Pods-NetmeraReactNativeExample.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F4CA792515EBE558EFC7191B /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig"; path = "Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64CDA2213DCD435B744E4208 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a in Frameworks */,
+				12648515E5DDC8A333B9B803 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C505F49B9BA46C4B2CE858C0 /* libPods-NetmeraReactNativeExample.a in Frameworks */,
+				66D890532D08C1EAEE57E767 /* libPods-NetmeraReactNativeExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,8 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				129285F45F0572F048E754E9 /* libPods-NetmeraReactNativeExample.a */,
-				4ABF9AFDAC0DCC4AA0ADAFB2 /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a */,
+				21FBD2402921055B21825AAB /* libPods-NetmeraReactNativeExample.a */,
+				199996DA44838C3F8C82ED0F /* libPods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -114,10 +114,10 @@
 		3D7F3E0ADA8875FE4B05505B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DFEDF4A4A1BBC60E74905BA2 /* Pods-NetmeraReactNativeExample.debug.xcconfig */,
-				80D956E45BE394CAE78782A1 /* Pods-NetmeraReactNativeExample.release.xcconfig */,
-				B56EFD65B0EBE74959785FA8 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig */,
-				46B7EEE131B9068601B09890 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig */,
+				28AA7557574FF692C5000CA3 /* Pods-NetmeraReactNativeExample.debug.xcconfig */,
+				3BD7272BA4DB13471B106FBF /* Pods-NetmeraReactNativeExample.release.xcconfig */,
+				22AE5A70EC6E1381FE74A215 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig */,
+				F4CA792515EBE558EFC7191B /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -160,12 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "NetmeraReactNativeExampleTests" */;
 			buildPhases = (
-				7324E654F9FFBFDFEB842582 /* [CP] Check Pods Manifest.lock */,
+				6F4B907AA257F57E2F34EA5F /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C0F0355D80425F1401D3F435 /* [CP] Embed Pods Frameworks */,
-				2348F79264C496F3BE093DF0 /* [CP] Copy Pods Resources */,
+				4FC81505F7F2A9CFC00E4D27 /* [CP] Embed Pods Frameworks */,
+				E566F665D4495AA4AC131182 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -181,14 +181,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NetmeraReactNativeExample" */;
 			buildPhases = (
-				44F06E6E98921870AEA00F47 /* [CP] Check Pods Manifest.lock */,
+				0189CFE0100CC7C72D8948BE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				69092ADF90DC4896C07B8632 /* [CP] Embed Pods Frameworks */,
-				24FC4630BF5ECE1BCB64FF25 /* [CP] Copy Pods Resources */,
+				12183F1F8990B1D8E7EE3812 /* [CP] Embed Pods Frameworks */,
+				001E35F86E0C3D9183AD499F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -256,38 +256,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		2348F79264C496F3BE093DF0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		24FC4630BF5ECE1BCB64FF25 /* [CP] Copy Pods Resources */ = {
+		001E35F86E0C3D9183AD499F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -304,7 +273,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample/Pods-NetmeraReactNativeExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		44F06E6E98921870AEA00F47 /* [CP] Check Pods Manifest.lock */ = {
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		0189CFE0100CC7C72D8948BE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -326,7 +309,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		69092ADF90DC4896C07B8632 /* [CP] Embed Pods Frameworks */ = {
+		12183F1F8990B1D8E7EE3812 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -343,7 +326,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample/Pods-NetmeraReactNativeExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7324E654F9FFBFDFEB842582 /* [CP] Check Pods Manifest.lock */ = {
+		4FC81505F7F2A9CFC00E4D27 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F4B907AA257F57E2F34EA5F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -365,21 +365,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C0F0355D80425F1401D3F435 /* [CP] Embed Pods Frameworks */ = {
+		E566F665D4495AA4AC131182 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests/Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -434,7 +434,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B56EFD65B0EBE74959785FA8 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig */;
+			baseConfigurationReference = 22AE5A70EC6E1381FE74A215 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -461,7 +461,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46B7EEE131B9068601B09890 /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig */;
+			baseConfigurationReference = F4CA792515EBE558EFC7191B /* Pods-NetmeraReactNativeExample-NetmeraReactNativeExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -485,7 +485,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DFEDF4A4A1BBC60E74905BA2 /* Pods-NetmeraReactNativeExample.debug.xcconfig */;
+			baseConfigurationReference = 28AA7557574FF692C5000CA3 /* Pods-NetmeraReactNativeExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -516,7 +516,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80D956E45BE394CAE78782A1 /* Pods-NetmeraReactNativeExample.release.xcconfig */;
+			baseConfigurationReference = 3BD7272BA4DB13471B106FBF /* Pods-NetmeraReactNativeExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

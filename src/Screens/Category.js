@@ -89,6 +89,27 @@ const Category = () => {
         }
     }
 
+    const getUserCategoryPreferenceList = () => {
+        Netmera.getUserCategoryPreferenceList().then((response) => {
+            setCategories(response)
+            console.log("User Category Preference List: " + response)
+        }).catch((error) => {
+            console.log("error: " + error)
+        });
+    };
+
+    const setUserCategoryPreference = (item) => {
+        Netmera.setUserCategoryPreference(item.categoryId, !item.optInStatus).then(() => {
+            console.log("Successfully set user category preference list")
+            setTimeout(() => {
+                getUserCategoryPreferenceList()
+            }, 500)
+
+        }).catch((error) => {
+            console.log("error: " + error)
+        });
+    };
+
     const getCategoryItem = (item, index) => {
         console.log(item)
         return (
@@ -100,6 +121,31 @@ const Category = () => {
                 <Text>Deleted Count: {item.deletedCount === undefined ? "null" : item.deletedCount}</Text>
                 <Text>Last Message: {item.lastMessage === undefined ? "null" : JSON.stringify(item.lastMessage)}</Text>
 
+                {index !== categories.length - 1 ?
+                    <View style={styles.divider}/> :
+                    <View style={{marginBottom: 15}}/>
+                }
+            </View>
+        )
+    }
+
+    const getUserCategoryPreferenceItem = (item, index) => {
+        return (
+            <View style={{paddingHorizontal: 10, width: "100%", alignItems: "center"}}>
+                <View style={{width: "90%", flexDirection: "row"}}>
+                    <View style={{width: "70%"}}>
+                        <Text>Category Id: {item.categoryId === undefined ? "null" : item.categoryId}</Text>
+                        <Text>Category Name: {item.categoryName === undefined ? "null" : item.categoryName}</Text>
+                    </View>
+                    <View style={{width: "30%"}}>
+                        <TouchableHighlight style={[styles.button, styles.inboxButton]} onPress={() => {
+                            console.log("item")
+                            setUserCategoryPreference(item);
+                        }}>
+                            <Text style={styles.buttonText}>{item.optInStatus ? "Disable" : "Enable"}</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
                 {index !== categories.length - 1 ?
                     <View style={styles.divider}/> :
                     <View style={{marginBottom: 15}}/>
@@ -152,12 +198,23 @@ const Category = () => {
                         <Text style={styles.buttonText}>Update Status For First Two Categories</Text>
                     </TouchableHighlight>
                 </View>
+                <View style={styles.rowItem}>
+                    <TouchableHighlight style={[styles.button, styles.inboxButton]}
+                                        onPress={() => getUserCategoryPreferenceList()}>
+                        <Text style={styles.buttonText}>User Category Preference List</Text>
+                    </TouchableHighlight>
+                </View>
             </View>
 
             <FlatList
                 data={categories}
                 renderItem={({item, index}) => {
-                    return getCategoryItem(item, index)
+                    if (item.categoryId) {
+                        return getUserCategoryPreferenceItem(item, index);
+                    } else {
+                        return getCategoryItem(item, index);
+                    }
+
                 }}
                 keyExtractor={item => item.categoryName}
                 contentContainerStyle={{width: "100%", justifyContent: 'center'}}

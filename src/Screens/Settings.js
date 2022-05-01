@@ -17,7 +17,7 @@ const Settings = () => {
     }, [])
 
     const pushEnabledCheck = async () => {
-        setIsPushEnabled(await Netmera.isPushEnabled())
+        setIsPushEnabled("Is Push Enabled: " + await Netmera.isPushEnabled())
     }
 
     const enablePush = () => {
@@ -48,6 +48,10 @@ const Settings = () => {
         Netmera.turnOffSendingEventAndUserUpdate(false)
     }
 
+    const getCurrentExternalId = async () => {
+        setIsPushEnabled("Current External Id: " + await Netmera.currentExternalId())
+    };
+
     return (
         <View style={styles.container}>
             <Text>{isPushEnabled != null ? isPushEnabled.toString() : ""}</Text>
@@ -74,6 +78,9 @@ const Settings = () => {
             </TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => turnOffSendingEventAndUserUpdate()}>
                 <Text style={styles.buttonText}>Turn Off Sending Event And User Update</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => getCurrentExternalId()}>
+                <Text style={styles.buttonText}>Current External Id</Text>
             </TouchableHighlight>
         </View>
     )

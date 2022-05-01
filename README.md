@@ -4,8 +4,6 @@ NETMERA is a Mobile Application Engagement Platform. We offer a series of develo
 
 ## Installation
 
-Netmera React Native SDK is available through [NPM](https://www.npmjs.com/package/react-native-netmera).
-
 `$ npm install react-native-netmera --save`
 
 ### Mostly automatic installation
@@ -52,13 +50,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {url 'http://developer.huawei.com/repo/'}
+        maven {url 'https://developer.huawei.com/repo/'}
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
-        classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.huawei.agconnect:agcp:1.4.2.300'
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.huawei.agconnect:agcp:1.6.3.300'
     }
 }
 
@@ -67,7 +65,8 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://maven.google.com'}
-        maven {url 'http://developer.huawei.com/repo/'}
+        maven { url 'https://developer.huawei.com/repo/'}
+        maven { url "https://release.netmera.com/release/android" }
     }
 }
 ```
@@ -101,8 +100,9 @@ apply plugin: 'com.google.gms.google-services'
             super.onCreate();
             RNNetmeraConfiguration netmeraConfiguration = new RNNetmeraConfiguration.Builder()
                 .firebaseSenderId(<YOUR GCM SENDER ID>)
-                .apiKey(<YOUR NETMERA API KEY>)
-                .logging(true) // This is for enabling Netmera logs.
+                .huaweiSenderId(<YOUR HMS SENDER ID>)
+                .apiKey(<YOUR NETMERA API KEY>) // This is for enabling Netmera logs.
+                .logging(true)
                 .build(this);
             RNNetmera.initNetmera(netmeraConfiguration);
         }
@@ -131,28 +131,69 @@ export const onPushDismiss = async (message) => {
 export const onPushButtonClicked = async (message) => {
     console.log("onPushButtonClicked: ", message);
 };
+
+export const onCarouselObjectSelected = async (message) => {
+    console.log("onCarouselObjectSelected: ", message);
+};
 ```
 
 8) Init `NetmeraBroadcastReceiver` inside your `index.js` file.
 
 ```
-   import { onPushButtonClicked,
-            onPushDismiss,
-            onPushOpen,
-            onPushReceive,
-            onPushRegister
-   } from "./NetmeraPushHeadlessTask";
+import {
+    onCarouselObjectSelected,
+    onPushButtonClicked,
+    onPushDismiss,
+    onPushOpen,
+    onPushReceive,
+    onPushRegister
+} from "./NetmeraPushHeadlessTask";
 
-   Netmera.initBroadcastReceiver(
-         onPushRegister,
-         onPushReceive,
-         onPushOpen,
-         onPushDismiss,
-         onPushButtonClicked
-   )
+Netmera.initBroadcastReceiver(
+    onPushRegister,
+    onPushReceive,
+    onPushOpen,
+    onPushDismiss,
+    onPushButtonClicked,
+    onCarouselObjectSelected
+)
    
-   // This should be called after Netmera.initBroadcastReceiver method.
-   AppRegistry.registerComponent(appName, () => App);
+// This should be called after Netmera.initBroadcastReceiver method.
+AppRegistry.registerComponent(appName, () => App);
+```
+
+9) If you have custom Firebase Messaging integration, please see usage below.
+
+```
+messaging()
+   .getToken(firebase.app().options.messagingSenderId)
+   .then(pushToken => {
+       Netmera.onNetmeraNewToken(pushToken)
+   })
+
+messaging().onMessage(async remoteMessage => {
+   if (Netmera.isNetmeraRemoteMessage(remoteMessage.data)) {
+       Netmera.onNetmeraFirebasePushMessageReceived(remoteMessage.from, remoteMessage.data)
+   }
+});
+```
+
+10) If you have custom Huawei Messaging integration, please see usage below.
+
+```
+HmsPushInstanceId.getToken("")
+   .then((result) => {
+       Netmera.onNetmeraNewToken(result.result)
+   })
+
+HmsPushEvent.onRemoteMessageReceived(event => {
+   const remoteMessage = new RNRemoteMessage(event.msg);
+   let data = JSON.parse(remoteMessage.getData())
+   console.log("onRemoteMessageReceived", data)
+   if (Netmera.isNetmeraRemoteMessage(data)) {
+       Netmera.onNetmeraHuaweiPushMessageReceived(remoteMessage.getFrom(), data)
+   }
+})
 ```
 
 ### Setup - iOS Part
@@ -171,11 +212,13 @@ $ pod install
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <React/RCTLinkingManager.h>
 #import <RNNetmera/RNNetmeraRCTEventEmitter.h>
 #import <RNNetmera/RNNetmeraUtils.h>
 #import <RNNetmera/RNNetmera.h>
 
 @implementation AppDelegate
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -195,11 +238,20 @@ $ pod install
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-  [RNNetmera logging: YES]; // This is for enabling Netmera logs.
-  [RNNetmera initNetmera:@"<apiKey>"];
+  [RNNetmera logging: YES];
+  [RNNetmera initNetmera:<apiKey>];
   [RNNetmera requestPushNotificationAuthorization];
   [RNNetmera setPushDelegate:self];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  
+  NSURL *deeplinkUrl=Netmera.recentPushObject.action.deeplinkURL;
+  return [RCTLinkingManager application:application openURL:deeplinkUrl options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -248,8 +300,6 @@ export const onPushReceive = async (message) => {
     console.log("onPushReceive: ", message);
 };
 ```
-Please take a look at `Setup-Android part 7`
-
 
 ### Calling React Native methods
 
@@ -316,175 +366,214 @@ updateUser() {
 ##### Netmera Inbox Examples
 
 ```
-   constructor() {
-        super();
-        this.state = {
-            inbox: [],
-            inboxState: Netmera.PUSH_OBJECT_STATUS_ALL,
-            countForStatus: 0
-        }
-    }
+ constructor() {
+     super();
+     this.state = {
+         inbox: [],
+         inboxState: Netmera.PUSH_OBJECT_STATUS_ALL,
+         countForStatus: 0
+     }
+ }
 
-    fetchInbox = async () => {
-        try {
-            const netmeraInboxFilter = new NetmeraInboxFilter();
-            netmeraInboxFilter.status = this.state.inboxState;
-            netmeraInboxFilter.pageSize = 2;
-            const inbox = await Netmera.fetchInbox(netmeraInboxFilter);
-            console.log("inbox", inbox);
-            this.setState({inbox: inbox});
-        } catch (e) {
-            console.log("error", e)
-        }
-    };
+ fetchInbox = async () => {
+     try {
+         const netmeraInboxFilter = new NetmeraInboxFilter();
+         netmeraInboxFilter.status = this.state.inboxState;
+         netmeraInboxFilter.pageSize = 2;
+         const inbox = await Netmera.fetchInbox(netmeraInboxFilter);
+         console.log("inbox", inbox);
+         this.setState({inbox: inbox});
+     } catch (e) {
+         console.log("error", e)
+     }
+ };
 
-    fetchNextPage = async () => {
-        try {
-            const inbox = await Netmera.fetchNextPage();
-            this.setState({inbox: inbox});
-            console.log("inbox", inbox)
-        } catch (e) {
-            console.log("error", e)
-        }
-    };
+ fetchNextPage = async () => {
+     try {
+         const inbox = await Netmera.fetchNextPage();
+         this.setState({inbox: inbox});
+         console.log("inbox", inbox)
+     } catch (e) {
+         console.log("error", e)
+     }
+ };
 
-    updateAll = async () => {
-        if (!this.state.inbox !== undefined) {
-            let updateStatus = this.state.inboxState;
-            if (updateStatus === Netmera.PUSH_OBJECT_STATUS_ALL) {
-                Alert.alert("Error", "Please select different status than all!!")
-                console.log("Please select different status than all!!");
-                return;
-            }
+ updateAll = async () => {
+     if (!this.state.inbox !== undefined) {
+         let updateStatus = this.state.inboxState;
+         if (updateStatus === Netmera.PUSH_OBJECT_STATUS_ALL) {
+             Alert.alert("Error", "Please select different status than all!!")
+             console.log("Please select different status than all!!");
+             return;
+         }
 
-            try {
-                Netmera.updateAll(this.state.inboxState).then(() => {
-                    this.fetchInbox();
-                }).catch((error) => {
-                    console.log("error: " + error)
-                })
-            } catch (error) {
-                console.log("error: " + error)
-            }
-        }
-    };
+         try {
+             Netmera.updateAll(this.state.inboxState).then(() => {
+                 this.fetchInbox();
+             }).catch((error) => {
+                 console.log("error: " + error)
+             })
+         } catch (error) {
+             console.log("error: " + error)
+         }
+     }
+ };
 
-    handlePushObject = async () => {
-        if (this.state.inbox !== undefined && this.state.inbox.length > 0) {
-            Netmera.handlePushObject(this.state.inbox[0].pushId)
-        }
-    };
+ handlePushObject = async () => {
+     if (this.state.inbox !== undefined && this.state.inbox.length > 0) {
+         Netmera.handlePushObject(this.state.inbox[0].pushId)
+     }
+ };
 
-    handleInteractiveAction = async () => {
-        if (this.state.inbox !== undefined && this.state.inbox.length > 0) {
-            for (let i = 0; i < this.state.inbox.length; i++) {
-                const element = this.state.inbox[i];
-                if (element.interactiveActions !== undefined && element.interactiveActions.length > 0) {
-                    const action = JSON.parse(element.interactiveActions)[0]
-                    Netmera.handleInteractiveAction(action.id);
-                    return;
-                }
-            }
-        }
-    };
+ handleInteractiveAction = async () => {
+     if (this.state.inbox !== undefined && this.state.inbox.length > 0) {
+         for (let i = 0; i < this.state.inbox.length; i++) {
+             const element = this.state.inbox[i];
+             if (element.interactiveActions !== undefined && element.interactiveActions.length > 0) {
+                 const action = JSON.parse(element.interactiveActions)[0]
+                 Netmera.handleInteractiveAction(action.id);
+                 return;
+             }
+         }
+     }
+ };
 
-    countForStatus = async () => {
-        try {
-            const count = await Netmera.countForStatus(this.state.inboxState);
-            this.setState({countForStatus: count})
-        } catch (error) {
-            console.log("error: " + error)
-        }
-    };
+ countForStatus = async () => {
+     try {
+         const count = await Netmera.countForStatus(this.state.inboxState);
+         this.setState({countForStatus: count})
+     } catch (e) {
+     }
+ };
 
-    inboxUpdateStatus = async () => {
-        if (this.state.inboxState === Netmera.PUSH_OBJECT_STATUS_ALL) {
-            Alert.alert("Error", "Please select different status than all!!")
-            console.log("Please select different status than all!!");
-            return;
-        }
-        if (this.state.inbox === undefined || this.state.inbox < 2) {
-            Alert.alert("Error", "Push objects count is less then 2!")
-            console.log("Push objects count is less then 2!");
-            return;
-        }
-        Netmera.inboxUpdateStatus(0, 2, this.state.inboxState).then(() => {
-            console.log("2 push object status was changed successfully.")
-        }).catch((error) => {
-            console.log("error: " + error)
-        });
-    };
+ inboxUpdateStatus = async () => {
+     if (this.state.inboxState === Netmera.PUSH_OBJECT_STATUS_ALL) {
+         Alert.alert("Error", "Please select different status than all!!")
+         console.log("Please select different status than all!!");
+         return;
+     }
+     if (this.state.inbox === undefined || this.state.inbox < 2) {
+         Alert.alert("Error", "Push objects count is less then 2!")
+         console.log("Push objects count is less then 2!");
+         return;
+     }
+     Netmera.inboxUpdateStatus(0, 2, this.state.inboxState).then(() => {
+         console.log("2 push object status was changed successfully.")
+     }).catch((error) => {
+         console.log("error: " + error)
+     });
+ };
 
-    updateInboxState = (value) => {
-        this.setState({inboxState: value})
-    };
- 
+ updateInboxState = (value) => {
+     this.setState({inboxState: value})
+ };
+
+ inboxCountForStatus = async () => {
+     try {
+         const filter = new NMInboxStatusCountFilter();
+         filter.nmInboxStatus = this.state.inboxState;
+         filter.includeExpired = true;
+         const nmInboxStatusCount = await Netmera.getInboxCountForStatus(filter);
+
+         let countStatusText = "ALL: " +  nmInboxStatusCount[NMInboxStatus.STATUS_ALL] + ", " +
+             "READ: " +  nmInboxStatusCount[NMInboxStatus.STATUS_READ] + ", " +
+             "UNREAD: " +  nmInboxStatusCount[NMInboxStatus.STATUS_UNREAD] + ", " +
+             "DELETED: " +  nmInboxStatusCount[NMInboxStatus.STATUS_DELETED]
+
+         this.setState({countForStatus: countStatusText})
+         console.log("nmInboxStatusCount: ", countStatusText);
+     } catch (e) {
+         console.log("error", e)
+     }
+ };
 ```
 
 ##### Netmera Inbox Category Examples
 
 ```
-   constructor() {
-        super();
-        this.state = {
-            categories: [],
-            categoryState: Netmera.PUSH_OBJECT_STATUS_ALL,
-        }
-    }
+ constructor() {
+     super();
+     this.state = {
+         categories: [],
+         userCategoryPreferences: [],
+         categoryState: Netmera.PUSH_OBJECT_STATUS_ALL,
+     }
+ }
 
-    fetchCategory = async () => {
-        try {
-            const netmeraCategoryFilter = new NetmeraCategoryFilter();
-            netmeraCategoryFilter.status = this.state.categoryState;
-            netmeraCategoryFilter.pageSize = 1;
-            const categories = await Netmera.fetchCategory(netmeraCategoryFilter);
-            console.log("categories", categories);
-            this.setState({categories: categories});
-        } catch (e) {
-            console.log("error", e)
-        }
-    };
+ fetchCategory = async () => {
+     try {
+         const netmeraCategoryFilter = new NetmeraCategoryFilter();
+         netmeraCategoryFilter.status = this.state.categoryState;
+         netmeraCategoryFilter.pageSize = 1;
+         const categories = await Netmera.fetchCategory(netmeraCategoryFilter);
+         console.log("categories", categories);
+         this.setState({categories: categories});
+     } catch (e) {
+         console.log("error", e)
+     }
+ };
 
-    fetchNextCategoryPage = async () => {
-        try {
-            const categories = await Netmera.fetchNextCategoryPage();
-            this.setState({categories: categories});
-            console.log("categories", categories)
-        } catch (e) {
-            console.log("error", e)
-        }
-    };
+ fetchNextCategoryPage = async () => {
+     try {
+         const categories = await Netmera.fetchNextCategoryPage();
+         this.setState({categories: categories});
+         console.log("categories", categories)
+     } catch (e) {
+         console.log("error", e)
+     }
+ };
 
-    handlePushObject = async () => {
-        if (this.state.categories !== undefined && this.state.categories.length > 0) {
-            Netmera.handleLastMessage(this.state.categories[0].categoryName)
-        }
-    };
+ handlePushObject = async () => {
+     if (this.state.categories !== undefined && this.state.categories.length > 0) {
+         Netmera.handleLastMessage(this.state.categories[0].categoryName)
+     }
+ };
 
-    updateStatusCategories = async () => {
-        if (this.state.categoryState === Netmera.PUSH_OBJECT_STATUS_ALL) {
-            Alert.alert("Error", "Please select different status than all!!")
-            console.log("Please select different status than all!!");
-            return;
-        }
-        if (this.state.categories === undefined || this.state.categories < 1) {
-            Alert.alert("Error", "Category object not found!")
-            console.log("Category object not found!");
-            return;
-        }
+ updateStatusCategories = async () => {
+     if (this.state.categoryState === Netmera.PUSH_OBJECT_STATUS_ALL) {
+         Alert.alert("Error", "Please select different status than all!!")
+         console.log("Please select different status than all!!");
+         return;
+     }
+     if (this.state.categories === undefined || this.state.categories < 1) {
+         Alert.alert("Error", "Category object not found!")
+         console.log("Category object not found!");
+         return;
+     }
 
-        const count = this.state.categories.length < 3 ? this.state.categories.length : 2;
+     const count = this.state.categories.length < 3 ? this.state.categories.length : 2;
 
-        Netmera.updateStatusByCategories(0, count, this.state.categoryState).then(() => {
-            console.log("Category object status was changed successfully.")
-        }).catch((error) => {
-            console.log("error: " + error)
-        });
-    };
+     Netmera.updateStatusByCategories(0, count, this.state.categoryState).then(() => {
+         console.log("Category object status was changed successfully.")
+     }).catch((error) => {
+         console.log("error: " + error)
+     });
+ };
 
-    updateCategoryState = (value) => {
-        this.setState({categoryState: value})
-    };
+ updateCategoryState = (value) => {
+     this.setState({categoryState: value})
+ };
+
+ getUserCategoryPreferenceList = async () => {
+     Netmera.getUserCategoryPreferenceList().then((response) => {
+         this.setState({categories: response})
+         console.log("User Category Preference List: " + response)
+     }).catch((error) => {
+         console.log("error: " + error)
+     });
+ };
+
+ setUserCategoryPreference = async (item) => {
+     Netmera.setUserCategoryPreference(item.categoryId, !item.optInStatus).then(() => {
+         console.log("Successfully set user category preference list")
+         setTimeout(() => {
+             this.getUserCategoryPreferenceList()
+         }, 500)
+
+     }).catch((error) => {
+         console.log("error: " + error)
+     });
+ };
 ```
 
 ##### Netmera Getting ExternalId (if exists before)
