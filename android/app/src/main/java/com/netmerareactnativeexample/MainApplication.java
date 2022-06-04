@@ -53,6 +53,7 @@ public class MainApplication extends Application implements ReactApplication {
         RNNetmeraConfiguration netmeraConfiguration = new RNNetmeraConfiguration.Builder()
                 .firebaseSenderId(BuildConfig.FIREBASE_SENDER_ID) // Replace this with your own FIREBASE SENDER ID.
                 .apiKey(BuildConfig.NETMERA_API_KEY) // Replace this with your own NETMERA API KEY.
+                .huaweiSenderId(BuildConfig.HMS_SENDER_ID) // Replace this with your own HMS SENDER ID.
                 .logging(true)
                 .build(this);
         RNNetmera.initNetmera(netmeraConfiguration);
