@@ -60,6 +60,7 @@ const User = () => {
                     placeholderTextColor={Colors.dark}
                     style={styles.textInput}
                     value={userId}
+                    autoCapitalize={'none'}
                     onChangeText={text => setUserId(text)}/>
                 <TextInput
                     placeholder={"Name (optional)"}

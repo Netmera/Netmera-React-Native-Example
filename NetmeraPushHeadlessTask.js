@@ -23,3 +23,7 @@ export const onPushDismiss = async (message) => {
 export const onPushButtonClicked = async (message) => {
     console.log("onPushButtonClicked: ", message);
 };
+
+export const onCarouselObjectSelected = async (message) => {
+    console.log("onCarouselObjectSelected: ", message);
+};

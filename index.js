@@ -10,7 +10,8 @@ import { onPushButtonClicked,
     onPushDismiss,
     onPushOpen,
     onPushReceive,
-    onPushRegister
+    onPushRegister,
+    onCarouselObjectSelected
 } from "./NetmeraPushHeadlessTask";
 
 // Init Netmera broadcast receiver to listen push events.
@@ -19,7 +20,8 @@ Netmera.initBroadcastReceiver(
     onPushReceive,
     onPushOpen,
     onPushDismiss,
-    onPushButtonClicked
+    onPushButtonClicked,
+    onCarouselObjectSelected
 )
 
 AppRegistry.registerComponent(appName, () => App);
