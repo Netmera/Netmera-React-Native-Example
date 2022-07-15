@@ -33,3 +33,15 @@ target 'NetmeraReactNativeExample' do
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
+
+# Add these pods to receive Media Push
+pod "Netmera", "3.14.10-WithoutDependency"
+pod "Netmera/NotificationServiceExtension", "3.14.10-WithoutDependency"
+pod "Netmera/NotificationContentExtension", "3.14.10-WithoutDependency"
+
+# Add these targets to receive Media Push
+target 'NetmeraReactNativeNotificationServiceExtension' do
+end
+
+target 'NetmeraReactNativeNotificationContentExtension' do
+end
