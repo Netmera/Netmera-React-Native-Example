@@ -63,6 +63,7 @@ static void InitializeFlipper(UIApplication *application) {
   [RNNetmera initNetmera:[ReactNativeConfig envFor:@"NETMERA_API_KEY"]]; // Replace this with your own NETMERA API KEY.
   [RNNetmera requestPushNotificationAuthorization];
   [RNNetmera setPushDelegate:self];
+  [Netmera setAppGroupName:@"group.com.netmerareactnativeexample"]; // Set your app group name
   
   return YES;
 }
