@@ -301,6 +301,8 @@ export const onPushReceive = async (message) => {
 };
 ```
 
+3) In order to use iOS10 Media Push, follow the instructions in [Netmera Product Hub.](https://developer.netmera.com/en/IOS/Push-Notifications#using-ios10-media-push)
+
 ### Calling React Native methods
 
 ##### Update User Example
