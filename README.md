@@ -82,10 +82,11 @@ allprojects {
  }
 ```
 
-5) Add the following into the bottom of app's buid.gradle file
+5) Add the following into the top of app's build.gradle file
 
 ```
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'
 ```
 
 6) Create an application class as shown below.
@@ -209,61 +210,23 @@ $ pod install
 ```
 #import "AppDelegate.h"
 
-#import <React/RCTBridge.h>
-#import <React/RCTBundleURLProvider.h>
-#import <React/RCTRootView.h>
-#import <React/RCTLinkingManager.h>
 #import <RNNetmera/RNNetmeraRCTEventEmitter.h>
-#import <RNNetmera/RNNetmeraUtils.h>
 #import <RNNetmera/RNNetmera.h>
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
-  [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-  
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"example"
-                                            initialProperties:nil];
-  
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-  
+  // Init Netmera
   [RNNetmera logging: YES];
-  [RNNetmera initNetmera:<apiKey>];
+  [RNNetmera initNetmera:[ReactNativeConfig envFor:@"NETMERA_API_KEY"]]; // Replace this with your own NETMERA API KEY.
   [RNNetmera requestPushNotificationAuthorization];
   [RNNetmera setPushDelegate:self];
+  [Netmera setAppGroupName:@"group.com.netmerareactnativeexample"]; // Set your app group name
+  
   return YES;
 }
-
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-{
-  
-  NSURL *deeplinkUrl=Netmera.recentPushObject.action.deeplinkURL;
-  return [RCTLinkingManager application:application openURL:deeplinkUrl options:options];
-}
-
-- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
-{
-#if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-#else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#endif
-}
-
-// MARK: Push Delegate Methods
 
 // Take push payload for Push clicked:
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
@@ -584,10 +547,4 @@ updateUser() {
     Netmera.currentExternalId()
 ```
 
-
-For detailed information please explore example folder in the Netmera sdk library.
-
-
-
-
-  
+Please explore example project for detailed information.
