@@ -4,38 +4,13 @@ NETMERA is a Mobile Application Engagement Platform. We offer a series of develo
 
 ## Installation
 
-`$ npm install react-native-netmera --save`
+`yarn add react-native-netmera`
 
-### Mostly automatic installation
+or
 
-`$ react-native link react-native-netmera`
+`npm install react-native-netmera`
 
-### Manual installation
-
-
-#### iOS
-
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-netmera` and add `RNNetmera.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNNetmera.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)
-
-#### Android
-
-1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-- Add `import com.netmera.reactnativesdk.RNNetmeraPackage;` to the imports at the top of the file
-- Add `new RNNetmeraPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-   ```
-   include ':react-native-netmera'
-   project(':react-native-netmera').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-netmera/android')
-   ```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-   ```
-   implementation project(':react-native-netmera')
-   ```
-
-For both native sides(Android & iOS) you don't have to include extra Netmera SDK libraries.
+For both native sides (Android & iOS) you don't have to include extra Netmera SDK libraries.
 
 ### Setup - Android Part
 
@@ -43,7 +18,7 @@ For both native sides(Android & iOS) you don't have to include extra Netmera SDK
 
 2) Download `google-services.json` file and place it into android/app/ folder.
 
-3) In your project's build gradle file, add the following dependency.
+3) In your project's build gradle file, add the following dependencies.
 
 ```
 buildscript {
@@ -76,13 +51,12 @@ allprojects {
 ```
 
  dependencies {
- 
+
      implementation 'androidx.core:core:1.1.0'
-     
  }
 ```
 
-5) Add the following into the top of app's build.gradle file
+5) Add the following into the top of app's build.gradle file.
 
 ```
 apply plugin: 'com.google.gms.google-services'
@@ -102,8 +76,8 @@ apply plugin: 'com.huawei.agconnect'
             RNNetmeraConfiguration netmeraConfiguration = new RNNetmeraConfiguration.Builder()
                 .firebaseSenderId(<YOUR GCM SENDER ID>)
                 .huaweiSenderId(<YOUR HMS SENDER ID>)
-                .apiKey(<YOUR NETMERA API KEY>) // This is for enabling Netmera logs.
-                .logging(true)
+                .apiKey(<YOUR NETMERA API KEY>)
+                .logging(true) // This is for enabling Netmera logs.
                 .build(this);
             RNNetmera.initNetmera(netmeraConfiguration);
         }
@@ -206,24 +180,40 @@ $ pod install
 ```
 
 2) If you want to use Android alike message sending from iOS to react native please consider shaping your AppDelegate class as following.
+- `AppDelegate.h`
+```
+#import <React/RCTBridgeDelegate.h>
+#import <UIKit/UIKit.h>
+#import <Netmera/Netmera.h>
+#import <NetmeraCore/NetmeraPushObject.h>
+#import <UserNotifications/UserNotifications.h>
 
+@interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate, NetmeraPushDelegate>
+
+@property (nonatomic, strong) UIWindow *window;
+
+@end
+```
+
+- `AppDelegate.m`
 ```
 #import "AppDelegate.h"
 
 #import <RNNetmera/RNNetmeraRCTEventEmitter.h>
+#import <RNNetmera/RNNetmeraUtils.h>
 #import <RNNetmera/RNNetmera.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
-  // Init Netmera
-  [RNNetmera logging: YES];
-  [RNNetmera initNetmera:[ReactNativeConfig envFor:@"NETMERA_API_KEY"]]; // Replace this with your own NETMERA API KEY.
+
+  // Add these lines to init Netmera
+  [RNNetmera logging: YES]; // This is for enabling Netmera logs.
+  [RNNetmera initNetmera:[<YOUR NETMERA API KEY>]]; // Replace this with your own NETMERA API KEY.
   [RNNetmera requestPushNotificationAuthorization];
   [RNNetmera setPushDelegate:self];
-  [Netmera setAppGroupName:@"group.com.netmerareactnativeexample"]; // Set your app group name
+  [Netmera setAppGroupName:<YOUR APP GROUP NAME>]; // Set your app group name
   
   return YES;
 }
@@ -267,7 +257,7 @@ export const onPushReceive = async (message) => {
 3) In order to use iOS10 Media Push, follow the instructions in [Netmera Product Hub.](https://developer.netmera.com/en/IOS/Push-Notifications#using-ios10-media-push)
 
    ```
-   // For receiving Media Push, you must add Netmera pods to top of your Podfile
+   // For receiving Media Push, you must add Netmera pods to top of your Podfile.
    pod "Netmera", "3.14.10-WithoutDependency"
    pod "Netmera/NotificationServiceExtension", "3.14.10-WithoutDependency"
    pod "Netmera/NotificationContentExtension", "3.14.10-WithoutDependency"
