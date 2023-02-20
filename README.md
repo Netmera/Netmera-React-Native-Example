@@ -437,10 +437,9 @@ updateUser() {
          filter.includeExpired = true;
          const nmInboxStatusCount = await Netmera.getInboxCountForStatus(filter);
 
-         let countStatusText = "ALL: " +  nmInboxStatusCount[NMInboxStatus.STATUS_ALL] + ", " +
+         let countStatusText = 
              "READ: " +  nmInboxStatusCount[NMInboxStatus.STATUS_READ] + ", " +
-             "UNREAD: " +  nmInboxStatusCount[NMInboxStatus.STATUS_UNREAD] + ", " +
-             "DELETED: " +  nmInboxStatusCount[NMInboxStatus.STATUS_DELETED]
+             "UNREAD: " +  nmInboxStatusCount[NMInboxStatus.STATUS_UNREAD]
 
          this.setState({countForStatus: countStatusText})
          console.log("nmInboxStatusCount: ", countStatusText);
