@@ -10,12 +10,6 @@ import {Netmera} from "react-native-netmera";
 const Settings = () => {
     const [isPushEnabled, setIsPushEnabled] = useState(null)
 
-    useEffect(() => {
-        if (Platform.OS === 'ios') {
-            Netmera.requestPushNotificationAuthorization()
-        }
-    }, [])
-
     const pushEnabledCheck = async () => {
         setIsPushEnabled("Is Push Enabled: " + await Netmera.isPushEnabled())
     }
@@ -34,6 +28,14 @@ const Settings = () => {
 
     const enablePopupPresentation = () => {
         Netmera.enablePopupPresentation()
+    }
+
+    const areNotificationsEnabled = async () => {
+        setIsPushEnabled("Notifications Enabled: " + await Netmera.areNotificationsEnabled())
+    }
+
+    const requestPushNotificationAuthorization = () => {
+        Netmera.requestPushNotificationAuthorization();
     }
 
     const requestPermissionsForLocation = () => {
@@ -57,6 +59,12 @@ const Settings = () => {
             <Text>{isPushEnabled != null ? isPushEnabled.toString() : ""}</Text>
             <TouchableHighlight style={styles.button} onPress={() => pushEnabledCheck()}>
                 <Text style={styles.buttonText}>Is Push Enabled</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => areNotificationsEnabled()}>
+                <Text style={styles.buttonText}>Are Notifications Enabled</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => requestPushNotificationAuthorization()}>
+                <Text style={styles.buttonText}>Request Push Notification Authorization</Text>
             </TouchableHighlight>
             <TouchableHighlight style={styles.button} onPress={() => enablePush()}>
                 <Text style={styles.buttonText}>Enable Push</Text>
