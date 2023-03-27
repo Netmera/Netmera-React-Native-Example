@@ -162,7 +162,7 @@ android {
             storeFile file(properties.getProperty('DEBUG_STORE_FILE'))
             keyAlias properties.getProperty('DEBUG_KEY_ALIAS')
             storePassword properties.getProperty('DEBUG_STORE_PASSWORD')
-            keyPassword properties.getProperty('DEBUK_KEY_PASSWORD')
+            keyPassword properties.getProperty('DEBUG_KEY_PASSWORD')
         }
     }
     buildTypes {
