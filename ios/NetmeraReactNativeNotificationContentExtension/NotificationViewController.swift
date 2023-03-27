@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import UserNotificationsUI
+import NetmeraNotificationContentExtension
 
 class NotificationViewController: NetmeraNotificationContentExtension {
     

@@ -10,6 +10,7 @@
 #import <RNNetmera/RNNetmeraRCTEventEmitter.h>
 #import <RNNetmera/RNNetmeraUtils.h>
 #import <RNNetmera/RNNetmera.h>
+#import "RNCConfig.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -18,7 +19,6 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
-#import "ReactNativeConfig.h"
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -60,7 +60,7 @@ static void InitializeFlipper(UIApplication *application) {
   
   // Init Netmera
   [RNNetmera logging: YES];
-  [RNNetmera initNetmera:[ReactNativeConfig envFor:@"NETMERA_API_KEY"]]; // Replace this with your own NETMERA API KEY.
+  [RNNetmera initNetmera:[RNCConfig envFor:@"NETMERA_API_KEY"]]; // Replace this with your own NETMERA API KEY.
   [RNNetmera requestPushNotificationAuthorization];
   [RNNetmera setPushDelegate:self];
   [Netmera setAppGroupName:@"group.com.netmerareactnativeexample"]; // Set your app group name
