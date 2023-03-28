@@ -8,7 +8,13 @@ NETMERA is a Mobile Application Engagement Platform. We offer a series of develo
 
 or
 
-`npm install react-native-netmera`
+`npm install --save react-native-netmera`
+
+#### Link Netmera (for RN versions < 0.60)
+
+Skip if using React Native version of 0.60 or greater.
+
+React Native: `react-native link react-native-netmera`
 
 For both native sides (Android & iOS) you don't have to include extra Netmera SDK libraries.
 
@@ -24,7 +30,7 @@ For both native sides (Android & iOS) you don't have to include extra Netmera SD
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven {url 'https://developer.huawei.com/repo/'}
     }
 
@@ -38,7 +44,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com'}
         maven { url 'https://developer.huawei.com/repo/'}
         maven { url "https://release.netmera.com/release/android" }
@@ -52,7 +58,8 @@ allprojects {
 
  dependencies {
 
-     implementation 'androidx.core:core:1.1.0'
+     implementation 'androidx.core:core:1.9.0'
+     
  }
 ```
 
@@ -84,93 +91,6 @@ apply plugin: 'com.huawei.agconnect'
     }
 ```
 
-7) Create a new `NetmeraPushHeadlessTask.js` inside your React Native project.
-
-```
-export const onPushRegister = async (message) => {
-    console.log("onPushRegister: ", message);
-};
-
-export const onPushReceive = async (message) => {
-    console.log("onPushReceive: ", message);
-};
-
-export const onPushOpen = async (message) => {
-    console.log("onPushOpen: ", message);
-};
-
-export const onPushDismiss = async (message) => {
-    console.log("onPushDismiss: ", message);
-};
-
-export const onPushButtonClicked = async (message) => {
-    console.log("onPushButtonClicked: ", message);
-};
-
-export const onCarouselObjectSelected = async (message) => {
-    console.log("onCarouselObjectSelected: ", message);
-};
-```
-
-8) Init `NetmeraBroadcastReceiver` inside your `index.js` file.
-
-```
-import {
-    onCarouselObjectSelected,
-    onPushButtonClicked,
-    onPushDismiss,
-    onPushOpen,
-    onPushReceive,
-    onPushRegister
-} from "./NetmeraPushHeadlessTask";
-
-Netmera.initBroadcastReceiver(
-    onPushRegister,
-    onPushReceive,
-    onPushOpen,
-    onPushDismiss,
-    onPushButtonClicked,
-    onCarouselObjectSelected
-)
-   
-// This should be called after Netmera.initBroadcastReceiver method.
-AppRegistry.registerComponent(appName, () => App);
-```
-
-9) If you have custom Firebase Messaging integration, please see usage below.
-
-```
-messaging()
-   .getToken(firebase.app().options.messagingSenderId)
-   .then(pushToken => {
-       Netmera.onNetmeraNewToken(pushToken)
-   })
-
-messaging().onMessage(async remoteMessage => {
-   if (Netmera.isNetmeraRemoteMessage(remoteMessage.data)) {
-       Netmera.onNetmeraFirebasePushMessageReceived(remoteMessage.from, remoteMessage.data)
-   }
-});
-```
-
-10) If you have custom Huawei Messaging integration, please see usage below.
-
-```
-HmsPushInstanceId.getToken("")
-   .then((result) => {
-       Netmera.onNetmeraNewToken(result.result)
-   })
-
-HmsPushEvent.onRemoteMessageReceived(event => {
-   const remoteMessage = new RNRemoteMessage(event.msg);
-   let data = JSON.parse(remoteMessage.getData())
-   console.log("onRemoteMessageReceived", data)
-   if (Netmera.isNetmeraRemoteMessage(data)) {
-       Netmera.onNetmeraHuaweiPushMessageReceived(remoteMessage.getFrom(), data)
-   }
-})
-```
-
 ### Setup - iOS Part
 
 1) Navigate to ios folder in your terminal and run the following command.
@@ -179,8 +99,20 @@ HmsPushEvent.onRemoteMessageReceived(event => {
 $ pod install
 ```
 
-2) If you want to use Android alike message sending from iOS to react native please consider shaping your AppDelegate class as following.
-- `AppDelegate.h`
+2) Download `GoogleService-Info.plist` file from Firebase and place it into ios/ folder.
+
+3) Enable push notifications for your project
+
+   1) If you have not generated a valid push notification certificate yet,
+      generate one and then export by following the steps explained in [Configuring Push Notifications section of App Distribution Guide](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_certificate-based_connection_to_apns#2947597)
+   2) Export the generated push certificate in .p12 format and upload to Netmera Dashboard.
+   3) Enable Push Notifications capability for your application as explained in [Enable Push Notifications](https://developer.netmera.com/en/IOS/Quick-Start#enable-push-notifications) guide.
+   4) Enable Remote notifications background mode for your application as explained in [Configuring Background Modes](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/pushing_background_updates_to_your_app#2980038) guide.
+
+
+4) If you want to use Android alike message sending from iOS to react native please consider shaping your AppDelegate class as following.
+
+#### AppDelegate.h
 ```
 #import <React/RCTBridgeDelegate.h>
 #import <UIKit/UIKit.h>
@@ -195,19 +127,27 @@ $ pod install
 @end
 ```
 
-- `AppDelegate.m`
-```
-#import "AppDelegate.h"
+#### AppDelegate.m
 
+- Add the following to the top of AppDelegate.m file.
+
+```
 #import <RNNetmera/RNNetmeraRCTEventEmitter.h>
 #import <RNNetmera/RNNetmeraUtils.h>
 #import <RNNetmera/RNNetmera.h>
+```
 
-@implementation AppDelegate
+- Add the following lines into the `didFinishLaunchingWithOptions` method.
+
+```
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // Add this line to set notification delegate
+  [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 
+  ...
+  
   // Add these lines to init Netmera
   [RNNetmera logging: YES]; // This is for enabling Netmera logs.
   [RNNetmera initNetmera:[<YOUR NETMERA API KEY>]]; // Replace this with your own NETMERA API KEY.
@@ -217,6 +157,16 @@ $ pod install
   
   return YES;
 }
+```
+
+- Add these methods to between `@implementation AppDelegate` and `@end`.
+
+```
+@implementation AppDelegate
+
+...
+
+// MARK: Push Delegate Methods
 
 // Take push payload for Push clicked:
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
@@ -254,7 +204,7 @@ export const onPushReceive = async (message) => {
 };
 ```
 
-3) In order to use iOS10 Media Push, follow the instructions in [Netmera Product Hub.](https://developer.netmera.com/en/IOS/Push-Notifications#using-ios10-media-push)
+4) In order to use iOS10 Media Push, follow the instructions in [Netmera Product Hub.](https://developer.netmera.com/en/IOS/Push-Notifications#using-ios10-media-push) Differently, you should add the pods to the top of the `Podfile` as below.
 
    ```
    // For receiving Media Push, you must add Netmera pods to top of your Podfile.
@@ -263,12 +213,109 @@ export const onPushReceive = async (message) => {
    pod "Netmera/NotificationContentExtension", "3.14.10-WithoutDependency"
    ```
 
+### Setup - React Native Part
+
+1) Create a new `NetmeraPushHeadlessTask.js` inside your React Native project.
+
+```
+export const onPushRegister = async (message) => {
+    console.log("onPushRegister: ", message);
+};
+
+export const onPushReceive = async (message) => {
+    console.log("onPushReceive: ", message);
+};
+
+export const onPushOpen = async (message) => {
+    console.log("onPushOpen: ", message);
+};
+
+export const onPushDismiss = async (message) => {
+    console.log("onPushDismiss: ", message);
+};
+
+export const onPushButtonClicked = async (message) => {
+    console.log("onPushButtonClicked: ", message);
+};
+
+export const onCarouselObjectSelected = async (message) => {
+    console.log("onCarouselObjectSelected: ", message);
+};
+```
+
+2) Init `NetmeraBroadcastReceiver` inside your `index.js` file.
+
+```
+import {
+    onCarouselObjectSelected,
+    onPushButtonClicked,
+    onPushDismiss,
+    onPushOpen,
+    onPushReceive,
+    onPushRegister
+} from "./NetmeraPushHeadlessTask";
+
+Netmera.initBroadcastReceiver(
+    onPushRegister,
+    onPushReceive,
+    onPushOpen,
+    onPushDismiss,
+    onPushButtonClicked,
+    onCarouselObjectSelected
+)
+   
+// This should be called after Netmera.initBroadcastReceiver method.
+AppRegistry.registerComponent(appName, () => App);
+```
+
+3) If you have custom Firebase Messaging integration, please see usage below.
+
+```
+messaging()
+   .getToken(firebase.app().options.messagingSenderId)
+   .then(pushToken => {
+       Netmera.onNetmeraNewToken(pushToken)
+});
+
+messaging().onMessage(async remoteMessage => {
+   if (Netmera.isNetmeraRemoteMessage(remoteMessage.data)) {
+       Netmera.onNetmeraFirebasePushMessageReceived(remoteMessage.from, remoteMessage.data)
+   }
+});
+
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    if (Netmera.isNetmeraRemoteMessage(remoteMessage.data)) {
+        Netmera.onNetmeraFirebasePushMessageReceived(remoteMessage.from, remoteMessage.data)
+    }
+});
+
+```
+
+4) If you have custom Huawei Messaging integration, please see usage below.
+
+```
+HmsPushInstanceId.getToken("")
+   .then((result) => {
+       Netmera.onNetmeraNewToken(result.result)
+   })
+
+HmsPushEvent.onRemoteMessageReceived(event => {
+   const remoteMessage = new RNRemoteMessage(event.msg);
+   let data = JSON.parse(remoteMessage.getData())
+   console.log("onRemoteMessageReceived", data)
+   if (Netmera.isNetmeraRemoteMessage(data)) {
+       Netmera.onNetmeraHuaweiPushMessageReceived(remoteMessage.getFrom(), data)
+   }
+})
+```
+
+
 ### Calling React Native methods
 
 ##### Update User Example
 
 ```
-updateUser() {
+const updateUser = () => {
     const user = new NetmeraUser();
     user.userId = <userId>;
     user.name = <name>;
@@ -276,264 +323,83 @@ updateUser() {
     user.msisdn = <msisdn>;
     user.gender = <gender>;
     Netmera.updateUser(user)
-  }
+}
 ```
 
 ##### Sending Event Examples
 
+You can send your events as follows. For more examples, please see the [example project](https://github.com/Netmera/Netmera-React-Native-Example/blob/master/src/Screens/Event.js).
+
 ```
-  void sendLoginEvent() {
+  const sendLoginEvent = () => {
     const loginEvent = new LoginEvent();
     loginEvent.setUserId(<userId>);
     Netmera.sendEvent(loginEvent)
   }
 
-  void sendRegisterEvent() {
+  const sendRegisterEvent = () => {
     const registerEvent = new RegisterEvent();
     Netmera.sendEvent(registerEvent)
   }
 
-  void sendViewCartEvent() {
+  const sendViewCartEvent = () => {
     const viewCartEvent = new ViewCartEvent();
     viewCartEvent.subTotal = <subTotal>;
     viewCartEvent.itemCount = <itemCount>;
     Netmera.sendEvent(viewCartEvent)
   }
-
-  void purchaseEvent() {
-    const netmeraLineItem = new NetmeraLineItem();
-    netmeraLineItem.setBrandId(<brandId>);
-    netmeraLineItem.setBrandName(<brandName>);
-    netmeraLineItem.setCampaignId(<campaignId>);
-    netmeraLineItem.setCategoryIds(<categoryIds>);
-    netmeraLineItem.setCategoryNames(<categoryNames>);
-    netmeraLineItem.setKeywords(<keywords>);
-    netmeraLineItem.setCount(<count>);
-    netmeraLineItem.setId(<id>);
-    netmeraLineItem.setPrice(<price>);
-
-    const purchaseEvent = new CustomPurchaseEvent();
-    purchaseEvent.coupon = <coupon>;
-    purchaseEvent.discount = <discount>;
-    purchaseEvent.grandTotal = <grandTotal>;
-    purchaseEvent.itemCount = <itemCount>;
-    purchaseEvent.paymentMethod = <paymentMethod>;
-    purchaseEvent.subTotal = <subTotal>;
-    purchaseEvent.shippingCost = <shippingCost>;
-    purchaseEvent.purchaseLineItemEvent = [netmeraLineItem, netmeraLineItem];
-    purchaseEvent.userName = <userName>;
-    Netmera.sendEvent(purchaseEvent)
-  }
 ```
+
+##### Push Notification Permissions
+
+If you don't request notification permission at runtime, you can request it by calling the `requestPushNotificationAuthorization()` method.
+Note: Notification runtime permissions are required on Android 13 (API 33) or higher.
+Therefore, before calling the method, make sure your project targets an API of 33 and above.
+
+```
+ Netmera.requestPushNotificationAuthorization();
+```
+
+You can call the `areNotificationsEnabled()` method if you need to know the status of permissions.
+
+``` 
+ await Netmera.areNotificationsEnabled() // Use the enabled status of permission as boolean
+```
+
 ##### Netmera Inbox Examples
 
-```
- constructor() {
-     super();
-     this.state = {
-         inbox: [],
-         inboxState: Netmera.PUSH_OBJECT_STATUS_ALL,
-         countForStatus: 0
-     }
- }
+You can fetch the Netmera inbox as following. For more detailed usage, please see the [example project](https://github.com/Netmera/Netmera-React-Native-Example/blob/master/src/Screens/PushInbox.js).
 
- fetchInbox = async () => {
+```
+ const fetchInbox = async () => {
      try {
          const netmeraInboxFilter = new NetmeraInboxFilter();
-         netmeraInboxFilter.status = this.state.inboxState;
-         netmeraInboxFilter.pageSize = 2;
+         netmeraInboxFilter.status = Netmera.PUSH_OBJECT_STATUS_UNREAD;
+         netmeraInboxFilter.pageSize = 2; // Fetch two push object
          const inbox = await Netmera.fetchInbox(netmeraInboxFilter);
          console.log("inbox", inbox);
-         this.setState({inbox: inbox});
      } catch (e) {
          console.log("error", e)
      }
- };
-
- fetchNextPage = async () => {
-     try {
-         const inbox = await Netmera.fetchNextPage();
-         this.setState({inbox: inbox});
-         console.log("inbox", inbox)
-     } catch (e) {
-         console.log("error", e)
-     }
- };
-
- updateAll = async () => {
-     if (!this.state.inbox !== undefined) {
-         let updateStatus = this.state.inboxState;
-         if (updateStatus === Netmera.PUSH_OBJECT_STATUS_ALL) {
-             Alert.alert("Error", "Please select different status than all!!")
-             console.log("Please select different status than all!!");
-             return;
-         }
-
-         try {
-             Netmera.updateAll(this.state.inboxState).then(() => {
-                 this.fetchInbox();
-             }).catch((error) => {
-                 console.log("error: " + error)
-             })
-         } catch (error) {
-             console.log("error: " + error)
-         }
-     }
- };
-
- handlePushObject = async () => {
-     if (this.state.inbox !== undefined && this.state.inbox.length > 0) {
-         Netmera.handlePushObject(this.state.inbox[0].pushId)
-     }
- };
-
- handleInteractiveAction = async () => {
-     if (this.state.inbox !== undefined && this.state.inbox.length > 0) {
-         for (let i = 0; i < this.state.inbox.length; i++) {
-             const element = this.state.inbox[i];
-             if (element.interactiveActions !== undefined && element.interactiveActions.length > 0) {
-                 const action = JSON.parse(element.interactiveActions)[0]
-                 Netmera.handleInteractiveAction(action.id);
-                 return;
-             }
-         }
-     }
- };
-
- countForStatus = async () => {
-     try {
-         const count = await Netmera.countForStatus(this.state.inboxState);
-         this.setState({countForStatus: count})
-     } catch (e) {
-     }
- };
-
- inboxUpdateStatus = async () => {
-     if (this.state.inboxState === Netmera.PUSH_OBJECT_STATUS_ALL) {
-         Alert.alert("Error", "Please select different status than all!!")
-         console.log("Please select different status than all!!");
-         return;
-     }
-     if (this.state.inbox === undefined || this.state.inbox < 2) {
-         Alert.alert("Error", "Push objects count is less then 2!")
-         console.log("Push objects count is less then 2!");
-         return;
-     }
-     Netmera.inboxUpdateStatus(0, 2, this.state.inboxState).then(() => {
-         console.log("2 push object status was changed successfully.")
-     }).catch((error) => {
-         console.log("error: " + error)
-     });
- };
-
- updateInboxState = (value) => {
-     this.setState({inboxState: value})
- };
-
- inboxCountForStatus = async () => {
-     try {
-         const filter = new NMInboxStatusCountFilter();
-         filter.nmInboxStatus = this.state.inboxState;
-         filter.includeExpired = true;
-         const nmInboxStatusCount = await Netmera.getInboxCountForStatus(filter);
-
-         let countStatusText = 
-             "READ: " +  nmInboxStatusCount[NMInboxStatus.STATUS_READ] + ", " +
-             "UNREAD: " +  nmInboxStatusCount[NMInboxStatus.STATUS_UNREAD]
-
-         this.setState({countForStatus: countStatusText})
-         console.log("nmInboxStatusCount: ", countStatusText);
-     } catch (e) {
-         console.log("error", e)
-     }
- };
+ }
 ```
 
 ##### Netmera Inbox Category Examples
 
+You can fetch the Netmera category as following. For more detailed usage, please see the [example project](https://github.com/Netmera/Netmera-React-Native-Example/blob/master/src/Screens/Category.js).
+
 ```
- constructor() {
-     super();
-     this.state = {
-         categories: [],
-         userCategoryPreferences: [],
-         categoryState: Netmera.PUSH_OBJECT_STATUS_ALL,
-     }
- }
-
- fetchCategory = async () => {
+ const fetchCategory = async () => {
      try {
-         const netmeraCategoryFilter = new NetmeraCategoryFilter();
-         netmeraCategoryFilter.status = this.state.categoryState;
-         netmeraCategoryFilter.pageSize = 1;
-         const categories = await Netmera.fetchCategory(netmeraCategoryFilter);
+         const netmeraCategoryFilter = new NetmeraCategoryFilter()
+         netmeraCategoryFilter.status = categoryState
+         netmeraCategoryFilter.pageSize = 1 // Fetch one by one
+         const categories = await Netmera.fetchCategory(netmeraCategoryFilter)
          console.log("categories", categories);
-         this.setState({categories: categories});
+         setCategories(categories)
      } catch (e) {
          console.log("error", e)
      }
- };
-
- fetchNextCategoryPage = async () => {
-     try {
-         const categories = await Netmera.fetchNextCategoryPage();
-         this.setState({categories: categories});
-         console.log("categories", categories)
-     } catch (e) {
-         console.log("error", e)
-     }
- };
-
- handlePushObject = async () => {
-     if (this.state.categories !== undefined && this.state.categories.length > 0) {
-         Netmera.handleLastMessage(this.state.categories[0].categoryName)
-     }
- };
-
- updateStatusCategories = async () => {
-     if (this.state.categoryState === Netmera.PUSH_OBJECT_STATUS_ALL) {
-         Alert.alert("Error", "Please select different status than all!!")
-         console.log("Please select different status than all!!");
-         return;
-     }
-     if (this.state.categories === undefined || this.state.categories < 1) {
-         Alert.alert("Error", "Category object not found!")
-         console.log("Category object not found!");
-         return;
-     }
-
-     const count = this.state.categories.length < 3 ? this.state.categories.length : 2;
-
-     Netmera.updateStatusByCategories(0, count, this.state.categoryState).then(() => {
-         console.log("Category object status was changed successfully.")
-     }).catch((error) => {
-         console.log("error: " + error)
-     });
- };
-
- updateCategoryState = (value) => {
-     this.setState({categoryState: value})
- };
-
- getUserCategoryPreferenceList = async () => {
-     Netmera.getUserCategoryPreferenceList().then((response) => {
-         this.setState({categories: response})
-         console.log("User Category Preference List: " + response)
-     }).catch((error) => {
-         console.log("error: " + error)
-     });
- };
-
- setUserCategoryPreference = async (item) => {
-     Netmera.setUserCategoryPreference(item.categoryId, !item.optInStatus).then(() => {
-         console.log("Successfully set user category preference list")
-         setTimeout(() => {
-             this.getUserCategoryPreferenceList()
-         }, 500)
-
-     }).catch((error) => {
-         console.log("error: " + error)
-     });
  };
 ```
 
@@ -541,6 +407,13 @@ updateUser() {
 
 ```
     Netmera.currentExternalId()
+```
+
+##### Netmera Popup Presentation
+To enable popup presentation, you need to call the `enablePopupPresentation()` method on the page where you want to display the popup.
+Note: To show popup on the app start or everywhere in the app, please add this to `index.js` file.
+```
+ Netmera.enablePopupPresentation();
 ```
 
 Please explore example project for detailed information.
