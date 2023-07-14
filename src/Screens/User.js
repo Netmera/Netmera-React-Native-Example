@@ -7,7 +7,7 @@ import {Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableHighlight,
 import styles from "../Style";
 import Colors from "react-native/Libraries/NewAppScreen/components/Colors";
 import {Picker} from "@react-native-picker/picker";
-import {Netmera, NetmeraUser} from "react-native-netmera";
+import {Netmera, NMUserGender} from "react-native-netmera";
 import MyNetmeraUser from "../Models/MyNetmeraUser";
 
 const User = () => {
@@ -17,7 +17,7 @@ const User = () => {
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [msisdn, setMsisdn] = useState('');
-    const [gender, setGender] = useState(NetmeraUser.GENDER_NOT_SPECIFIED);
+    const [gender, setGender] = useState(NMUserGender.NOT_SPECIFIED);
 
     const sendUserUpdate = () => {
         const user = new MyNetmeraUser()
@@ -97,9 +97,9 @@ const User = () => {
                             selectedValue={gender}
                             onValueChange={(itemValue) => setGender(itemValue)}
                             dropdownIconColor={Colors.black}>
-                        <Picker.Item label="MALE" value={NetmeraUser.GENDER_MALE}/>
-                        <Picker.Item label="FEMALE" value={NetmeraUser.GENDER_FEMALE}/>
-                        <Picker.Item label="NOT SPECIFIED" value={NetmeraUser.GENDER_NOT_SPECIFIED}/>
+                        <Picker.Item label="MALE" value={NMUserGender.MALE}/>
+                        <Picker.Item label="FEMALE" value={NMUserGender.FEMALE}/>
+                        <Picker.Item label="NOT SPECIFIED" value={NMUserGender.NOT_SPECIFIED}/>
                     </Picker>
                 </View>
 

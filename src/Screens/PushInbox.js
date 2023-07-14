@@ -5,14 +5,13 @@
 import React, {useState} from "react";
 import {Alert, FlatList, Text, TouchableHighlight, View} from "react-native";
 import styles from "../Style";
-import {Netmera, NetmeraInboxFilter} from "react-native-netmera";
+import {Netmera, NetmeraInboxFilter, NMInboxStatus, NMInboxStatusCountFilter} from "react-native-netmera";
 import SelectDropdown from 'react-native-select-dropdown'
-import {NMInboxStatus, NMInboxStatusCountFilter} from "react-native-netmera/src/NetmeraInbox";
 
 const PushInbox = () => {
 
     const [inbox, setInbox] = useState([])
-    const [inboxState, setInboxState] = useState(Netmera.PUSH_OBJECT_STATUS_ALL)
+    const [inboxState, setInboxState] = useState(NMInboxStatus.STATUS_ALL)
     const [statusCount, setStatusCount] = useState(0)
 
     const states = ["ALL", "DELETED", "READ_OR_UNREAD", "READ", "UNREAD"];
@@ -42,7 +41,7 @@ const PushInbox = () => {
 
     const updateAll = async () => {
         if (!inbox !== undefined) {
-            if (inboxState === Netmera.PUSH_OBJECT_STATUS_ALL) {
+            if (inboxState === NMInboxStatus.STATUS_ALL) {
                 Alert.alert("Error", "Please select different status than all!!")
                 console.log("Please select different status than all!!");
                 return
@@ -96,7 +95,7 @@ const PushInbox = () => {
             console.log("Push objects count is less then 2!")
             return
         }
-        Netmera.inboxUpdateStatus(0, 2, Netmera.PUSH_OBJECT_STATUS_UNREAD).then(() => {
+        Netmera.inboxUpdateStatus(0, 2, NMInboxStatus.STATUS_UNREAD).then(() => {
             console.log("2 push object status was changed successfully.")
         }).catch((error) => {
             console.log("error: " + error)
@@ -126,23 +125,23 @@ const PushInbox = () => {
     const updateInboxState = (value) => {
         switch (value) {
             case "ALL":
-                setInboxState(Netmera.PUSH_OBJECT_STATUS_ALL)
+                setInboxState(NMInboxStatus.STATUS_ALL)
                 break;
 
             case "DELETED":
-                setInboxState(Netmera.PUSH_OBJECT_STATUS_DELETED)
+                setInboxState(NMInboxStatus.STATUS_DELETED)
                 break;
 
             case "READ_OR_UNREAD":
-                setInboxState(Netmera.PUSH_OBJECT_STATUS_READ_OR_UNREAD)
+                setInboxState(NMInboxStatus.STATUS_READ_OR_UNREAD)
                 break;
 
             case "READ":
-                setInboxState(Netmera.PUSH_OBJECT_STATUS_READ)
+                setInboxState(NMInboxStatus.STATUS_READ)
                 break;
 
             case "UNREAD":
-                setInboxState(Netmera.PUSH_OBJECT_STATUS_UNREAD)
+                setInboxState(NMInboxStatus.STATUS_UNREAD)
                 break;
         }
     }

@@ -2,7 +2,9 @@
  * Copyright (c) 2022 Inomera Research.
  */
 
-class LoginEvent {
+import {NetmeraEvent} from "react-native-netmera";
+
+class LoginEvent extends NetmeraEvent {
     code = "n:cl";
 
     set userId(userId) {
@@ -34,7 +36,7 @@ class ViewCartEvent {
     }
 }
 
-class PurchaseEvent {
+class PurchaseEvent extends NetmeraEvent {
     code = "n:ph";
 
     set coupon(value) {

@@ -5,13 +5,13 @@
 import React, {useState} from "react";
 import {Alert, FlatList, Text, TouchableHighlight, View} from "react-native";
 import styles from "../Style";
-import {Netmera, NetmeraCategoryFilter} from "react-native-netmera";
+import {Netmera, NetmeraCategoryFilter, NMInboxStatus} from "react-native-netmera";
 import SelectDropdown from "react-native-select-dropdown";
 
 const Category = () => {
 
     const [categories, setCategories] = useState([])
-    const [categoryState, setCategoryState] = useState(Netmera.PUSH_OBJECT_STATUS_ALL)
+    const [categoryState, setCategoryState] = useState(NMInboxStatus.STATUS_ALL)
 
     const categoryStates = ["ALL", "DELETED", "READ_OR_UNREAD", "READ", "UNREAD"];
 
@@ -45,7 +45,7 @@ const Category = () => {
     }
 
     const updateStatusCategories = async () => {
-        if (categoryState === Netmera.PUSH_OBJECT_STATUS_ALL) {
+        if (categoryState === NMInboxStatus.STATUS_ALL) {
             Alert.alert("Error", "Please select different status than all!!")
             console.log("Please select different status than all!!")
             return
@@ -68,23 +68,23 @@ const Category = () => {
     const updateCategoryState = (value) => {
         switch (value) {
             case "ALL":
-                setCategoryState(Netmera.PUSH_OBJECT_STATUS_ALL)
+                setCategoryState(NMInboxStatus.STATUS_ALL)
                 break;
 
             case "DELETED":
-                setCategoryState(Netmera.PUSH_OBJECT_STATUS_DELETED)
+                setCategoryState(NMInboxStatus.STATUS_DELETED)
                 break;
 
             case "READ_OR_UNREAD":
-                setCategoryState(Netmera.PUSH_OBJECT_STATUS_READ_OR_UNREAD)
+                setCategoryState(NMInboxStatus.STATUS_READ_OR_UNREAD)
                 break;
 
             case "READ":
-                setCategoryState(Netmera.PUSH_OBJECT_STATUS_READ)
+                setCategoryState(NMInboxStatus.STATUS_READ)
                 break;
 
             case "UNREAD":
-                setCategoryState(Netmera.PUSH_OBJECT_STATUS_UNREAD)
+                setCategoryState(NMInboxStatus.STATUS_UNREAD)
                 break;
         }
     }
